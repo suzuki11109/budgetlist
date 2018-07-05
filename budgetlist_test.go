@@ -87,3 +87,15 @@ func TestQueryBudgetPartialInFeb(t *testing.T) {
 		t.Error("got", result)
 	}
 }
+
+func TestQueryBudgetVerySmallBudget(t *testing.T) {
+	budget := &Budget{
+		"2018-03": 1,
+	}
+	result := budget.QueryBudget("2018-03-01", "2018-03-01")
+
+	if result != 0.03 {
+		t.Error("want", 0.03)
+		t.Error("got", result)
+	}
+}
