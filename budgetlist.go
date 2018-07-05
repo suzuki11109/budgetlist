@@ -1,10 +1,11 @@
 package budgetlist
 
 import (
-	"fmt"
-	"strconv"
+	"math"
 	"time"
 )
+
+const oneDay = 24 * time.Hour
 
 type Budget map[string]float64
 
@@ -15,7 +16,6 @@ func getDayInMonth(t time.Time) int {
 func (b *Budget) QueryBudget(start, end string) float64 {
 	startDate, _ := time.Parse("2006-01-02", start)
 	endDate, _ := time.Parse("2006-01-02", end)
-	oneDay, _ := time.ParseDuration("24h")
 
 	var total float64
 
@@ -24,6 +24,5 @@ func (b *Budget) QueryBudget(start, end string) float64 {
 		total += value / float64(getDayInMonth(cursor))
 	}
 
-	result, _ := strconv.ParseFloat(fmt.Sprintf("%0.2f", total), 64)
-	return result
+	return math.Floor(total*100) / 100
 }
